@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Main from './App/mainfile';
 
 export default function App() {
@@ -13,6 +13,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

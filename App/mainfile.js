@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Button, Text } from 'react-native';
 import { FetchQuizApi } from './API,s/quizapi'
 import Quiz from './Components/Quiz';
+
 export default class Main extends Component {
     constructor() {
         super();
         this.state = {
             questions_answers: [],
-
+            quiz: false,
         }
+        // this.result = this.result.bind(this)
+        this.quizUnmount = this.quizUnmount.bind(this)
     }
     componentDidMount() {
         this.getData()
+
     }
 
     async getData() {
@@ -28,11 +32,20 @@ export default class Main extends Component {
         } catch (e) { console.log('error == > ', e) }
     }
 
+    // result(){
+    //     this.getData()
+    // }
+    quizUnmount(){
+        this.setState({quiz: false})
+        this.getData()
+    }
+
     render() {
-        const {questions_answers} = this.state
+        const {questions_answers, quiz} = this.state
         return (
             <View>
-            {!!questions_answers.length && <Quiz data={questions_answers} />}
+            {quiz && !!questions_answers.length && <Quiz unMount={this.quizUnmount} data={questions_answers} />}
+            {!quiz && <Button onPress={()=>{this.setState({quiz: true})}} title='Start Quiz' />}
             </View>
         )
     }
