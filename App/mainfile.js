@@ -12,13 +12,12 @@ export default class Main extends Component {
             quiz: false,
             auth: false,
         }
-        this.quizUnmount = this.quizUnmount.bind(this)
         this.faceAuth = this.faceAuth.bind(this)
     }
-    componentDidMount() {
-        this.getData()
+    // componentDidMount() {
+    //     this.getData()
 
-    }
+    // }
 
     async getData() {
         try {
@@ -30,24 +29,27 @@ export default class Main extends Component {
                     correct_answer: e.correct_answer
                 }
             })
-            this.setState({ questions_answers: array })
+            this.setState({ questions_answers: array, quiz: true })
         } catch (e) { console.log('error == > ', e) }
+    }
+    mount(){
+        this.getData()
     }
     faceAuth(){
         this.setState({auth: true})
     }
     quizUnmount(){
         this.setState({quiz: false})
-        this.getData()
+        // this.getData()
     }
 
     render() {
         const {questions_answers, quiz, auth} = this.state
         return (
             <View style={{width: '100%' , flex: 1, }}>
-            {auth && quiz && !!questions_answers.length && <Quiz unMount={this.quizUnmount} data={questions_answers} />}
+            {auth && quiz && !!questions_answers.length && <Quiz unMount={()=>{this.quizUnmount()}} data={questions_answers} />}
             {!auth && !quiz && <View style={{flex: 0.70}}><FaceCamera faceAuth={this.faceAuth} /></View>}
-            {auth && !quiz && <View style={{flex: 1, justifyContent: 'space-around' , alignItems: 'center'}}><Button onPress={()=>{this.setState({quiz: true})}} title='Start Quiz' /></View>}
+            {auth && !quiz && <View style={{flex: 1, justifyContent: 'space-around' , alignItems: 'center'}}><Button onPress={()=> this.mount()} title='Start Quiz' /></View>}
             </View>
         )
     }

@@ -50,7 +50,7 @@ export default class Quiz extends Component {
         this.setState({time: time, selectedValue: '', modalVisible: true})
     }
     render() {
-        const { questions_answers, CurrentQuestionNum, trueAnswer, rightAnswers, time, timeRun } = this.state;
+        const { questions_answers, CurrentQuestionNum, trueAnswer, rightAnswers, time, timeRun, selectedValue } = this.state;
         if (trueAnswer !== questions_answers[CurrentQuestionNum].correct_answer) {
             this.setState({ trueAnswer: questions_answers[CurrentQuestionNum].correct_answer })
         }
@@ -64,18 +64,17 @@ export default class Quiz extends Component {
                     </View>
                 </View>
                 <View style={{ flex: 0.70, backgroundColor: '#F0F1F5', justifyContent: 'space-evenly', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => { this.setState({ selectedValue: questions_answers[CurrentQuestionNum].correct_answer }) }} style={{ overFlow: 'hidden', width: '75%', backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', height: 50, borderRadius: 50, shadowColor: 'black', elevation: 15 }} >
-                        <Text style={{ fontSize: 20 }}>{questions_answers[CurrentQuestionNum].correct_answer}</Text>
+                    <TouchableOpacity onPress={() => { this.setState({ selectedValue: questions_answers[CurrentQuestionNum].correct_answer }) }} style={{ overFlow: 'hidden', width: '75%', backgroundColor: selectedValue === questions_answers[CurrentQuestionNum].correct_answer ? '#0B4CA5': 'white', alignItems: 'center', justifyContent: 'center', height: 50, borderRadius: 50, shadowColor: 'black', elevation: 15 }} >
+                        <Text style={{ fontSize: 20, color:selectedValue === questions_answers[CurrentQuestionNum].correct_answer ? 'white': 'black' }}>{questions_answers[CurrentQuestionNum].correct_answer}</Text>
                     </TouchableOpacity>
                     {questions_answers[CurrentQuestionNum].incorrect_answers.map((e) => {
                         return (
-                            <TouchableOpacity onPress={() => { this.setState({ selectedValue: e }) }} style={{ overFlow: 'hidden', width: '75%', backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', height: 50, borderRadius: 50, shadowColor: 'black', elevation: 15, }} key={e}>
-                                <Text style={{ fontSize: 20 }}>{e}</Text>
+                            <TouchableOpacity onPress={() => { this.setState({ selectedValue: e }) }} style={{ overFlow: 'hidden', width: '75%', backgroundColor: selectedValue === e ? '#0B4CA5': 'white', alignItems: 'center', justifyContent: 'center', height: 50, borderRadius: 50, shadowColor: 'black', elevation: 15, }} key={e}>
+                                <Text style={{ fontSize: 20, color:selectedValue === e ? 'white': 'black' }}>{e}</Text>
                             </TouchableOpacity>
                         )
                     })}
-                    <View style={{ flexDirection: 'row' }}>
-                        {this.state.selectedValue !== '' && <View style={{ padding: 10, margin: 10, width: '60%', backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', height: 50, borderRadius: 50, shadowColor: 'green', elevation: 15, }}><Text>{this.state.selectedValue}</Text></View>}
+                    <View>
                         <TouchableOpacity style={{ margin: 10, overFlow: 'hidden', shadowColor: 'black', elevation: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0B4CA5', width: 50, height: 50, borderRadius: 100 }} onPress={() => this.next()}>
                             <Text style={{ color: 'white' }} >Next</Text>
                         </TouchableOpacity>
